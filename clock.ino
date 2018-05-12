@@ -28,11 +28,13 @@ void setup() {
 
   rtc.begin(RTC_CS_PIN);
   rtc.autoTime(); // Set the RTC's time to the sketch compilation time
+  rtc.enableAlarmInterrupt(); // Enable the SQW pin as an interrupt.
   rtc.setAlarm1(); // By default, alarm 1 triggers every second
 }
 
 void loop() {
-  if (rtc.alarm1()) {
+  // Interrupt pin is active-low, so it's low when an alarm is triggered.  Alarm 1 triggers every second.
+  if (!digitalRead(RTC_INTERRUPT_PIN) && rtc.alarm1()) {
     rtc.update();
     renderTime(rtc.hour(), rtc.minute(), rtc.second());
   }
