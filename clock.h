@@ -17,4 +17,5 @@ Button newRepeatButton(int pin);
 
 // Reads the button state, storing the current state in the button.
 // Returns true if the button fired during this reading.
-boolean readButton(Button* button);
+boolean readButton(Button* button, unsigned long now);
+
