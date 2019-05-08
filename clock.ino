@@ -4,8 +4,8 @@
 #include <Adafruit_NeoPixel.h>
 
 // Time.  Dead on real time clock (RTC)
-#define RTC_CS_PIN        10  // Chip-select pin (SS)
-#define RTC_INTERRUPT_PIN 2   // SQW / interrupt pin
+#define RTC_CS_PIN        18  // Chip-select pin (SS)
+#define RTC_INTERRUPT_PIN 3   // SQW / interrupt pin
 #define BLINK_MS          250 // MS the hour, minute, or second LED will be on or off in the set modes.
 
 uint16_t hourLed;
@@ -18,7 +18,7 @@ unsigned long nextBlink = 0;
 // LEDs.
 // NEO_KHZ800 - 800KHz bitstream for WS2812 LEDs
 // NEO_GRB - Green, Red, Blue bitstream
-#define LED_PIN     13 // Pin the LEDs are connected to
+#define LED_PIN     6  // Pin the LEDs are connected to
 #define NUM_LEDS    30 // Number of LEDs in the strip
 #define LED_OFFSET  14 // Index of the 12-o'clock LED
 
@@ -34,8 +34,8 @@ Adafruit_NeoPixel leds = Adafruit_NeoPixel(NUM_LEDS, LED_PIN, NEO_GRB + NEO_KHZ8
 uint8_t mode = COLOR_MODE;
 
 // Buttons.  Mode and Increment.
-#define MODE_PIN        3
-#define INCREMENT_PIN   4
+#define MODE_PIN        4
+#define INCREMENT_PIN   5
 
 #define INITIAL_DEBOUNCE_MS 100 // MS a button must be pressed for a keypress to register
 #define FIRST_REPEAT_MS     750 // MS the repeat button will wait before firing repeatedly
@@ -56,14 +56,25 @@ void setup() {
   leds.begin();
   leds.show(); // Turn off all LEDs.
 
-  rtc.begin(RTC_CS_PIN);
-  rtc.autoTime(); // Set the RTC's time to the sketch compilation time
-  rtc.enableAlarmInterrupt(); // Enable the SQW pin as an interrupt.
-  rtc.setAlarm1(); // By default, alarm 1 triggers every second
+  for (int i = 0; i < NUM_LEDS; i ++) {
+    leds.setPixelColor(i, leds.Color(0, 255, 255));
+  }
+
+//  rtc.begin(RTC_CS_PIN);
+//  rtc.autoTime(); // Set the RTC's time to the sketch compilation time
+//  rtc.enableAlarmInterrupt(); // Enable the SQW pin as an interrupt.
+//  rtc.setAlarm1(); // By default, alarm 1 triggers every second
 }
 
 // ------------------------------------------------------------------------------------------ Loop
 
+void loop() {
+  for (int i = 0; i < NUM_LEDS; i ++) {
+    leds.setPixelColor(i, leds.Color(0, 255, 255));
+  }
+}
+
+/*
 void loop() {
   unsigned int now = millis();
   boolean updateLeds = false;
@@ -114,6 +125,7 @@ void loop() {
     renderTime(rtc.hour(), rtc.minute(), rtc.second());
   }
 }
+*/
 
 // ------------------------------------------------------------------------------------------ Buttons
 

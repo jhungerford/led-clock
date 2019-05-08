@@ -19,3 +19,12 @@ Button newRepeatButton(int pin);
 // Returns true if the button fired during this reading.
 boolean readButton(Button* button, unsigned long now);
 
+struct RGB {
+  uint8_t red;
+  uint8_t green;
+  uint8_t blue;
+};
+
+// Converts a HSL value to RGB.  HSL and RGB values are in the range [0, 255].
+RGB hslToRGB(uint8_t hue, uint8_t saturation, uint8_t lightness);
+
